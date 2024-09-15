@@ -24,6 +24,6 @@ do_connect()
 
 # end added
 
-import webrepl
-webrepl.start()
+#import webrepl
+#webrepl.start()
 gc.collect()
