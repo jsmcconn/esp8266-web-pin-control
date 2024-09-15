@@ -3,6 +3,8 @@ Control digital pins of ESP8266 over web with micropython
 
 ![ESP8266 Web Pin Control](pin_control.png)
 
+![Appication RobotDyn WiFi D1 R2 ESP8266 module ](application.jpg)
+
 # Usage Notes
 Small project to use an old RobotDyn WiFi D1 R2 ESP8266 module as a simple web server that allows you to control the GPIO pins. The code is written in Micropython and uses the flask-like framework provided by microdot.
 
