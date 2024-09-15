@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Control</title>
+    <style>
+        /* Set the background color and font style */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            background-color: #1f1f1f;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .pin-control {
+            text-align: center;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+            color: #ffffff;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            width: 40px;
+            height: 20px;
+            background-color: #b3b3b3;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s;
+        }
+
+        input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #4caf50;
+        }
+
+        input[type="checkbox"]:checked::before {
+            transform: translateX(20px);
+        }
+
+        .pin-control span {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #b3b3b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="pin-control">
+            <label for="pin0">Pin 0</label>
+            <input type="checkbox" id="pin0">
+            <span id="status0">Loading...</span>
+        </div>
+        <div class="pin-control">
+            <label for="pin1">Pin 1</label>
+            <input type="checkbox" id="pin1">
+            <span id="status1">Loading...</span>
+        </div>
+        <div class="pin-control">
+            <label for="pin2">Pin 2</label>
+            <input type="checkbox" id="pin2">
+            <span id="status2">Loading...</span>
+        </div>
+        <div class="pin-control">
+            <label for="pin3">Pin 3</label>
+            <input type="checkbox" id="pin3">
+            <span id="status3">Loading...</span>
+        </div>
+        <div class="pin-control">
+            <label for="pin4">Pin 4</label>
+            <input type="checkbox" id="pin4">
+            <span id="status4">Loading...</span>
+        </div>
+        <div class="pin-control">
+            <label for="pin5">Pin 5</label>
+            <input type="checkbox" id="pin5">
+            <span id="status5">Loading...</span>
+        </div>
+        <div class="pin-control">
+            <label for="pin6">Pin 6</label>
+            <input type="checkbox" id="pin6">
+            <span id="status6">Loading...</span>
+        </div>
+        <div class="pin-control">
+            <label for="pin7">Pin 7</label>
+            <input type="checkbox" id="pin7">
+            <span id="status7">Loading...</span>
+        </div>
+        <div class="pin-control">
+            <label for="pin8">Pin 8</label>
+            <input type="checkbox" id="pin8">
+            <span id="status8">Loading...</span>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle pin value
+        function togglePin(pinNumber) {
+            const checkbox = document.getElementById(`pin${pinNumber}`);
+            const pinValue = checkbox.checked ? 1 : 0;
+            const status = document.getElementById(`status${pinNumber}`);
+
+            // Send request to set new pin value
+            fetch(`/pins/set/${pinNumber}/${pinValue}`)
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`Pin ${pinNumber} set to ${pinValue}`);
+                        status.textContent = pinValue ? 'On' : 'Off';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to load current pin values when page loads
+        function loadPinValues() {
+            for (let pinNumber = 0; pinNumber <= 8; pinNumber++) {
+                fetch(`/pins/get/${pinNumber}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        const checkbox = document.getElementById(`pin${pinNumber}`);
+                        const status = document.getElementById(`status${pinNumber}`);
+                        const pinValue = parseInt(data, 10); // Convert "0" or "1" to an integer
+                        
+                        checkbox.checked = pinValue === 1;
+                        status.textContent = pinValue === 1 ? 'On' : 'Off';
+
+                        // Add the event listener only after the value has been set
+                        checkbox.addEventListener('click', () => togglePin(pinNumber));
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById(`status${pinNumber}`).textContent = 'Error';
+                    });
+            }
+        }
+
+        // Load pin values on page load
+        window.onload = loadPinValues;
+    </script>
+
+</body>
+</html>
