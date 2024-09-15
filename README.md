@@ -8,7 +8,7 @@ Small project to use an old RobotDyn WiFi D1 R2 ESP8266 module as a simple web s
 
 https://github.com/miguelgrinberg/microdot
 
-The dev board I had didn't have enough ram to run microdot direction, so I added the module to the micropython manifest and re-built the target firmware, process described below.
+The dev board I had didn't have enough ram to run microdot directly, so I added the module to the micropython manifest and re-built the target firmware, process described below.
 
 # Build Instructions
 
@@ -47,7 +47,7 @@ docker run --rm -v ${PWD}:/mnt -w /mnt/micropython larsks/esp-open-sdk make -C m
 docker run --rm -v ${PWD}:/mnt -w /mnt/micropython larsks/esp-open-sdk make -C ports/esp8266 -j BOARD=ESP8266_GENERIC
 ```
 
-The firmware will be built as micropython/ports/esp8266/build-ESP8266_GENERIC/firmware.bin.  You can upload it to your esp8266 using esptool.py.  Update COMX for your COM port.
+The firmware will be built as micropython/ports/esp8266/build-ESP8266_GENERIC/firmware.bin.  You can upload it to your esp8266 using esptool.  Update COMX for your COM port.
 
 More details here: https://docs.micropython.org/en/v1.23.0/esp8266/tutorial/intro.html
 
@@ -61,7 +61,7 @@ esptool --port COMX --baud 460800 write_flash --flash_size=detect --verify 0 mic
 
 Copy the files to the target, remember to update the wifi ssid, key, and network details in boot.py.
 
-More details here: https://docs.micropython.org/en/latest/reference/mpremote.html
+More details here: https://docs.micropython.org/en/v1.23.0/reference/mpremote.html
 
 ```
 mpremote cp boot.py :
