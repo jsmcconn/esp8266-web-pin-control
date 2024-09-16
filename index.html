@@ -140,7 +140,7 @@
                 .then(response => {
                     if (response.ok) {
                         console.log(`Pin ${pinNumber} set to ${pinValue}`);
-                        status.textContent = pinValue ? 'On' : 'Off';
+                        status.textContent = pinValue ? 'Low' : 'High';
                     }
                 })
                 .catch(error => console.error('Error:', error));
@@ -157,7 +157,7 @@
                         const pinValue = parseInt(data, 10); // Convert "0" or "1" to an integer
                         
                         checkbox.checked = pinValue === 1;
-                        status.textContent = pinValue === 1 ? 'On' : 'Off';
+                        status.textContent = pinValue === 1 ? 'Low' : 'High';
 
                         // Add the event listener only after the value has been set
                         checkbox.addEventListener('click', () => togglePin(pinNumber));
